@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""lru cache"""
+"""LRUCache that inherits from BaseCaching and is a caching system"""
 base_caching = __import__("base_caching").BaseCaching
 
 
 class LRUCache(base_caching):
-    """class lru caching"""
+    """class LRUCache that inherits from BaseCaching and is a caching system"""
     def __init__(self):
         """init method"""
         super().__init__()
