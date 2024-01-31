@@ -17,25 +17,21 @@ class LFUCache(base_caching):
             return
         if len(self.cache_data) >= self.MAX_ITEMS:
             if key not in self.cache_data:
-                min_frequency = min(self.frequency.values())
+                min_frequency = min(self.cache_data.values())
                 lfu_keys = [k for k, v in self.cache_data.items()
-                            if self.frequency.get(k, 0) == min_frequency]
+                            if v == min_frequency]
 
-                if lfu_keys:
-                    lru_key = min(lfu_keys, key=lambda k: self.access_time - self.frequency.get(k, 0))
-                    del self.cache_data[lru_key]
-                    del self.frequency[lru_key]
-                    print("DISCARD: {}".format(lru_key))
-                else:
-                    pass
+                lru_key = min(lfu_keys, key=lambda k: self.frequency.get(k, 0))
+                del self.cache_data[lru_key]
+                del self.frequency[lru_key]
+                print("DISCARD: {}".format(lru_key))
         self.cache_data[key] = item
-        self.access_time += 1
-        self.frequency[key] = self.access_time
+        if key not in self.frequency:
+            self.frequency[key] = 0
 
     def get(self, key):
         """get method"""
         if key is None or key not in self.cache_data:
             return None
-        self.access_time += 1
-        self.frequency[key] = self.access_time
+        self.frequency[key] += 1
         return self.cache_data[key]
