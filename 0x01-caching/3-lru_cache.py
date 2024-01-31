@@ -25,9 +25,9 @@ class LRUCache(base_caching):
 
     def get(self, key):
         """get method"""
-        if key is not None and key in self.cache_data:
-            if key in self.lru_list:
-                self.lru_list.remove(key)
-            self.lru_list.append(key)
-            return self.cache_data[key]
-        return None
+        if key is None or key not in self.cache_data:
+            return None
+        if key in self.lru_list:
+            self.lru_list.remove(key)
+        self.lru_list.append(key)
+        return self.cache_data[key]
