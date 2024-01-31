@@ -17,14 +17,17 @@ class LFUCache(base_caching):
             return
         if len(self.cache_data) >= self.MAX_ITEMS:
             if key not in self.cache_data:
-                min_frequency = min(self.cache_data.values())
+                min_frequency = min(self.frequency.values())
                 lfu_keys = [k for k, v in self.cache_data.items()
-                            if v == min_frequency]
+                            if self.frequency.get(k, 0) == min_frequency]
 
-                lru_key = min(lfu_keys, key=lambda k: self.frequency.get(k, 0))
-                del self.cache_data[lru_key]
-                del self.frequency[lru_key]
-                print("DISCARD: {}".format(lru_key))
+                if lfu_keys:
+                    lru_key = min(lfu_keys, key=lambda k: self.access_time - self.frequency.get(k, 0))
+                    del self.cache_data[lru_key]
+                    del self.frequency[lru_key]
+                    print("DISCARD: {}".format(lru_key))
+                else:
+                    pass
         self.cache_data[key] = item
         self.access_time += 1
         self.frequency[key] = self.access_time
