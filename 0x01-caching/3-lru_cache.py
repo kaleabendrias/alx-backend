@@ -11,6 +11,7 @@ class LRUCache(base_caching):
         self.lru_list = []
 
     def put(self, key, item):
+        """put method"""
         if key is not None and item is not None:
             if len(self.cache_data) >= self.MAX_ITEMS:
                 discarded_key = self.lru_list.pop(0)
@@ -22,6 +23,7 @@ class LRUCache(base_caching):
             self.lru_list.append(key)
 
     def get(self, key):
+        """get method"""
         if key is not None and key in self.cache_data:
             if key in self.lru_list:
                 self.lru_list.remove(key)
