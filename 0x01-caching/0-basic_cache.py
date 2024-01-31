@@ -12,7 +12,7 @@ class BasicCache(base_caching):
     def put(self, key, item):
         """put method"""
         if key is None or item is None:
-            pass
+            return
         self.cache_data[key] = item
 
     def get(self, key):
