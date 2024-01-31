@@ -1,51 +1,38 @@
 #!/usr/bin/python3
-"""lifo cache"""
-import base_caching  # Explicit import for clarity
+"""LFUCache that inherits from BaseCaching and is a caching system"""
+base_caching = __import__("base_caching").BaseCaching
 
 
-class LFUCache(base_caching.BaseCaching):
-    """A Least Frequently Used (LFU) caching system."""
-
+class LFUCache(base_caching):
+    """LFUCache that inherits from BaseCaching and is a caching system"""
     def __init__(self):
+        """init method"""
         super().__init__()
-        self.keys_to_frequencies = {}  # Map keys to their access frequencies
+        self.frequency = {}
+        self.access_time = 0
 
     def put(self, key, item):
-        """
-        Adds an item to the cache.
-        """
-        if key and item:
-            current_value = self.get(key)
-            if current_value != item:  # Only update if value has changed
-                self.cache_data[key] = item
-                self.keys_to_frequencies[key] = 1
+        """put method"""
+        if key is None or item is None:
+            return
+        if len(self.cache_data) >= self.MAX_ITEMS:
+            if key not in self.cache_data:
+                min_frequency = min(self.cache_data.values())
+                lfu_keys = [k for k, v in self.cache_data.items()
+                            if v == min_frequency]
 
-                # Evict if cache is full
-                if self.is_full():
-                    self.evict_lru()
-            else:
-                # Update frequency even if value is the same
-                self.update_frequency(key)
+                lru_key = min(lfu_keys, key=lambda k: self.frequency.get(k, 0))
+                del self.cache_data[lru_key]
+                del self.frequency[lru_key]
+                print("DISCARD: {}".format(lru_key))
+        self.cache_data[key] = item
+        self.access_time += 1
+        self.frequency[key] = self.access_time
 
     def get(self, key):
-        """Retrieves an item from the cache and updates its frequency."""
-        value = self.cache_data.get(key, None)
-        if value:
-            self.update_frequency(key)
-        return value
-
-    def update_frequency(self, key):
-        """Increments the access frequency of a key."""
-        self.keys_to_frequencies[key] += 1
-
-    def evict_lru(self):
-        """Evicts the least frequently used item from the cache."""
-        least_frequent_key = min(self.keys_to_frequencies,
-                                 key=self.keys_to_frequencies.get)
-        print(f"DISCARD: {least_frequent_key}")
-        self.cache_data.pop(least_frequent_key)
-        self.keys_to_frequencies.pop(least_frequent_key)
-
-    def is_full(self):
-        """Returns True if the cache is full, False otherwise."""
-        return len(self.cache_data) >= self.MAX_ITEMS
+        """get method"""
+        if key is None or key not in self.cache_data:
+            return None
+        self.access_time += 1
+        self.frequency[key] = self.access_time
+        return self.cache_data[key]
