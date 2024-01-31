@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """base_cache calss"""
+from collections import deque
 base_caching = __import__("base_caching").BaseCaching
 
-
-from collections import deque
 
 class FIFOCache(base_caching):
     """Fifo cache"""
