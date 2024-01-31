@@ -18,8 +18,9 @@ class LFUCache(base_caching):
         if len(self.cache_data) >= self.MAX_ITEMS:
             if key not in self.cache_data:
                 min_frequency = min(self.cache_data.values())
-                lfu_keys = [k for k, v in self.cache_data.items() if v == min_frequency]
-                
+                lfu_keys = [k for k, v in self.cache_data.items()
+                            if v == min_frequency]
+
                 lru_key = min(lfu_keys, key=lambda k: self.frequency.get(k, 0))
                 del self.cache_data[lru_key]
                 del self.frequency[lru_key]
