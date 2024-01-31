@@ -12,7 +12,7 @@ class LRUCache(base_caching):
 
     def put(self, key, item):
         """put method"""
-        if key is None and item is None:
+        if key is None or item is None:
             return
         if len(self.cache_data) >= self.MAX_ITEMS:
             discarded_key = self.lru_list.pop(0)
