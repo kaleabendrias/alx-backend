@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
-"""Use request accept_languages to determine the best match"""
+"""Use accept languages to determine the best match"""
 from flask import Flask, request, render_template, g
 from flask_babel import Babel
+
+
+app = Flask(__name__)
+babel = Babel(app)
 
 
 class Config:
@@ -10,9 +14,6 @@ class Config:
     BABEL_DEFAULT_LOCALE = "en"
     BABEL_DEFAULT_TIMEZONE = "UTC"
 
-
-app = Flask(__name__)
-babel = Babel(app)
 
 app.config.from_object(Config)
 
@@ -42,7 +43,7 @@ def before_request():
 
 @babel.localeselector
 def get_locale():
-    """ detect if the incoming request contains locale argument"""
+    """detect if the incoming request contains locale argument"""
     if 'locale' in request.args:
         locale = request.args.get('locale')
         if locale in app.config['LANGUAGES']:
