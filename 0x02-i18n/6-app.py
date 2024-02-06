@@ -58,13 +58,13 @@ def get_locale():
     if user_locale:
         return user_locale
 
-    return app.config['BABEL_DEFAULT_LOCALE']
+    return Config.BABEL_DEFAULT_LOCALE
 
 
 @app.route('/')
 def hello_world():
-    """renders 5-index.html"""
-    return render_template("5-index.html", user=g.user)
+    """renders 6-index.html"""
+    return render_template("6-index.html", user=g.user)
 
 
 if __name__ == '__main__':
