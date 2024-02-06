@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Use request.accept_languages to determine the best match"""
 from flask import Flask, request, render_template
-from flask_babel import Babel, _
+from flask_babel import Babel
 
 
 app = Flask(__name__)
