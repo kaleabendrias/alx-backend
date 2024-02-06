@@ -29,12 +29,10 @@ users = {
 def get_user():
     """gets the user from the dict if available"""
     login_as = request.args.get('login_as')
-    for id, user in users.items():
-        if id == int(login_as):
-            return user
-        else:
-            return None
-    return None
+    if login_as and int(login_as) in users:
+        return users[int(login_as)]
+    else:
+        return None
 
 
 @app.before_request
