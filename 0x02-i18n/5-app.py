@@ -53,9 +53,5 @@ def get_locale():
 
 @app.route('/')
 def hello_world():
-    """renders 4-index.html"""
+    """renders 5-index.html"""
     return render_template("5-index.html", user=g.user)
-
-
-if __name__ == '__main__':
-    app.run()
