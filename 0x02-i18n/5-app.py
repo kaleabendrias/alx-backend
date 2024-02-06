@@ -25,16 +25,21 @@ users = {
     4: {"name": "Teletubby", "locale": None, "timezone": "Europe/London"},
 }
 
+
 def get_user():
+    """gets the user from the dict if available"""
     login_as = request.args.get('login_as')
     if login_as and int(login_as) in users:
         return users[int(login_as)]
     else:
         return None
 
+
 @app.before_request
 def before_request():
+    """g user is being set"""
     g.user = get_user()
+
 
 @babel.localeselector
 def get_locale():
