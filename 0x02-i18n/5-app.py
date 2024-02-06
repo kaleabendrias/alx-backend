@@ -55,3 +55,7 @@ def get_locale():
 def hello_world():
     """renders 5-index.html"""
     return render_template("5-index.html", user=g.user)
+
+
+if __name__ == '__main__':
+    app.run()
