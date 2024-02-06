@@ -18,6 +18,7 @@ class Config:
 app.config.from_object(Config)
 babel.init_app(app)
 
+
 @app.route('/')
 def hello_world():
     """renders 1-index.html"""
