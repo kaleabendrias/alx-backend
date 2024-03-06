@@ -9,7 +9,7 @@ babel = Babel(app)
 
 
 class Config:
-    """config available languages in our app"""
+    """available languages"""
     LANGUAGES = ["en", "fr"]
     BABEL_DEFAULT_LOCALE = "en"
     BABEL_DEFAULT_TIMEZONE = "UTC"
@@ -27,7 +27,7 @@ users = {
 
 
 def get_user():
-    """gets the user from the dict if available"""
+    """gets the user from the"""
     login_as = request.args.get('login_as')
     if login_as and int(login_as) in users:
         return users[int(login_as)]
@@ -37,13 +37,13 @@ def get_user():
 
 @app.before_request
 def before_request():
-    """g user is being set"""
+    """g user is being"""
     g.user = get_user()
 
 
 @babel.localeselector
 def get_locale():
-    """detect if the incoming request contains locale argument"""
+    """detect if the"""
     if 'locale' in request.args:
         locale = request.args.get('locale')
         if locale in app.config['LANGUAGES']:
